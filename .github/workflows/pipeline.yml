@@ -32,8 +32,8 @@ jobs:
           wait-on: http://localhost:5000
           browser: chrome
       - name: heroku deploy
-        if: ${{github.event_name == 'push' }}
         uses: akhileshns/heroku-deploy@v3.12.12
+        if: github.event.pull_request.merged == true
         with: 
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: fullstackopen-pokedex-101
@@ -41,3 +41,10 @@ jobs:
           healthcheck: "https://fullstackopen-pokedex-101.herokuapp.com/health"
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.33.0
+        if: github.event.pull_request.merged == true
+        env:
+          GITHUB_TOKEN : ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
+          WITH_V: true
