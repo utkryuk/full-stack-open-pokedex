@@ -34,3 +34,6 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: fullstackopen-pokedex-101
           heroku_email: utkryuk@gmail.com
+          healthcheck: "https://fullstackopen-pokedex-101.herokuapp.com/health"
+          checkstring: "ok"
+          rollbackonhealthcheckfailed: true
